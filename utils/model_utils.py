@@ -5,7 +5,6 @@ from pathlib import Path
 from loguru import logger as log
 import torch
 
-from models.convnext_tiny.main import ConvNeXtTiny
 from models.simple_cnn.main import SimpleCNN
 from models.simple_cnn_v2.main import SimpleCNN as SimpleCNNv2
 
@@ -15,8 +14,6 @@ def build_model(model_name: str, device: torch.device):
         return SimpleCNN(num_classes=2).to(device)
     if model_name == "simple_cnn_v2":
         return SimpleCNNv2(num_classes=2).to(device)
-    if model_name == "convnext_tiny":
-        return ConvNeXtTiny(num_classes=2).to(device)
     raise ValueError(f"Unknown model name: {model_name}")
 
 
