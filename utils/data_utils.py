@@ -1,19 +1,19 @@
-from __future__ import annotations
-
 from pathlib import Path
 
 import pandas as pd
 from PIL import Image
 from torch.utils.data import Dataset
 
-from config import CSV_PATH, TRAIN_DIR
 from utils.train_utils import StepLogger
 
 
-def load_dataframe(step_logger: StepLogger | None = None) -> pd.DataFrame:
+def load_dataframe(step_logger=None):
+    # Lazy import to avoid triggering dataset download on module import / --help.
+    import config
+
     if step_logger:
         step_logger.log("Reading train_solution.csv")
-    df = pd.read_csv(CSV_PATH)
+    df = pd.read_csv(config.CSV_PATH)
 
     if list(df.columns) == ["0", "0.1"]:
         if step_logger:
@@ -24,13 +24,13 @@ def load_dataframe(step_logger: StepLogger | None = None) -> pd.DataFrame:
         step_logger.log("Filtering rows by existing jpg files")
     df["image"] = df["id"].astype(str) + ".jpg"
     df["label"] = df["label"].astype(int)
-    existing = {p.name for p in TRAIN_DIR.glob("*.jpg")}
+    existing = {p.name for p in config.TRAIN_DIR.glob("*.jpg")}
     df = df[df["image"].isin(existing)].reset_index(drop=True)
     return df
 
 
 class PosesDataset(Dataset):
-    def __init__(self, df: pd.DataFrame, img_dir: Path, transform=None):
+    def __init__(self, df, img_dir, transform=None):
         self.df = df.reset_index(drop=True)
         self.img_dir = Path(img_dir)
         self.transform = transform

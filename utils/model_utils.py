@@ -1,15 +1,14 @@
-from __future__ import annotations
-
 from pathlib import Path
 
 from loguru import logger as log
 import torch
+from torch import nn
 
 from models.simple_cnn.main import SimpleCNN
 from models.simple_cnn_v2.main import SimpleCNN as SimpleCNNv2
 
 
-def build_model(model_name: str, device: torch.device):
+def build_model(model_name, device):
     if model_name == "simple_cnn":
         return SimpleCNN(num_classes=2).to(device)
     if model_name == "simple_cnn_v2":
@@ -18,10 +17,10 @@ def build_model(model_name: str, device: torch.device):
 
 
 def load_trained_model(
-    model_name: str,
-    model_dir: Path,
-    device: torch.device,
-    prefer_checkpoint: bool = False,
+    model_name,
+    model_dir,
+    device,
+    prefer_checkpoint=False,
 ):
     model = build_model(model_name, device)
     ckpt_path = model_dir / "last_ckpt.pth"

@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from pathlib import Path
 
 import matplotlib
@@ -8,7 +6,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-def plot_history(df: pd.DataFrame, out_path: Path) -> None:
+def plot_history(df, out_path):
     """Plot loss/accuracy/F1 curves and save them to a PNG."""
     fig, axes = plt.subplots(1, 3, figsize=(16, 4))
 

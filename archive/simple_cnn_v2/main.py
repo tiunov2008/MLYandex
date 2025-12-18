@@ -45,6 +45,5 @@ class SimpleCNN(nn.Module):
         )
 
     def forward(self, x):
-        x_feat = self.features(x)
-        out = self.classifier(x_feat)
-        return out
+        x = self.features(x)
+        return self.classifier(x)
