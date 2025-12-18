@@ -29,7 +29,7 @@ class TrainRun:
         self.early_stop_patience = early_stop_patience
 
     def default_output_root(self):
-        return Path("archive")
+        return Path("new_archive")
 
     def default_run_name(self):
         return self.name
